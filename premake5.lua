@@ -1,13 +1,9 @@
 workspace "ZombieAppocalypse"
-    platforms { "Win64", "Win32" }
+    platforms { "Win64" }
     configurations {"Debug", "Release"}
 
     language "C++"
     cppdialect "C++20"
-
-    filter "platforms:Win32"
-        system "Windows"
-        architecture "x86"
 
     filter "platforms:Win64"
         system "Windows"
@@ -35,8 +31,8 @@ project "ZombieAppocalypse"
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
 
-    pchheader "chpch.hpp"
-	pchsource "src/chpch.cpp" -- Only used by MSVC
+    pchheader "zpch.hpp"
+	pchsource "src/zpch.cpp" -- Only used by MSVC
 
     files
     {
