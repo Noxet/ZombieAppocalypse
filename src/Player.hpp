@@ -41,16 +41,16 @@ public:
 
 	// handle getting hit by a zombie
 	bool hit(sf::Time timeHit);
-	sf::Time getLastHit();
+	sf::Time getLastHit() const;
 
 	// get player position as a rectangle, useful for collision detection
-	sf::FloatRect getPosition();
+	sf::FloatRect getPosition() const;
 	// get player center in <x, y>
-	sf::Vector2f getCenter();
+	sf::Vector2f getCenter() const;
 	// get player facing angle, in degrees
-	float getRotation();
+	float getRotation() const;
 
-	sf::Sprite getSprite();
+	sf::Sprite getSprite() const;
 
 	// move/stop moving the player
 	void moveLeft();
@@ -70,5 +70,5 @@ public:
 	void upgradeHealth();
 	void increaseHealthLevel(int amount);	// increase the max health
 
-	int getHealth();
+	int getHealth() const;
 };
