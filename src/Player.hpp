@@ -9,15 +9,15 @@ private:
 	const int START_HEALTH{ 100 };
 
 	// player data
-	sf::Vector2f m_position;
-	bool m_upPressed;
-	bool m_downPressed;
-	bool m_leftPressed;
-	bool m_rightPressed;
-	int m_health;
-	int m_maxHealth;
-	sf::Time m_lastHit;		// when the player was last hit
-	float m_speed;		// player speed in px/s
+	sf::Vector2f m_position{};
+	bool m_upPressed{ false };
+	bool m_downPressed{ false };
+	bool m_leftPressed{ false };
+	bool m_rightPressed{ false };
+	int m_health{};
+	int m_maxHealth{};
+	sf::Time m_lastHit{};		// when the player was last hit
+	float m_speed{};			// player speed in px/s
 
 	// graphics
 	sf::Sprite m_sprite;
