@@ -32,8 +32,11 @@ int main()
 	sf::Vector2i mouseScreenPosition;	// relative to screen coordinates (in px)
 
 	Player player;
-	
+
+	// zombie horde
 	std::vector<std::unique_ptr<Zombie>> zombieHorde;
+	int numZombies{};
+	int numZombiesAlive{};
 
 	// the boundaries of the arena
 	sf::IntRect arena;
@@ -99,8 +102,13 @@ int main()
 
 				int tileSize = GamePlay::createBackground(background, arena);
 
+				// create the player
 				player.spawn(arena, resolution, tileSize);
-				zombieHorde = GamePlay::createHorde(10, arena);
+
+				// create the zombie horde
+				numZombies = 10;
+				numZombiesAlive = 10;
+				zombieHorde = GamePlay::createHorde(numZombies, arena);
 
 				// prevent frame jump
 				clock.restart();
@@ -124,6 +132,8 @@ int main()
 
 			for (auto& zombie : zombieHorde)
 			{
+				if (!zombie->isAlive()) continue;
+
 				zombie->update(dt.asSeconds(), player.getCenter());
 			}
 			//z.update(dt.asSeconds(), player.getCenter());
