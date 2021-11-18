@@ -28,7 +28,7 @@ bool Zombie::hit()
 	if (m_health < 0)
 	{
 		m_bAlive = false;
-		// replace the zombie image with blood splat
+		// replace the zombie image with blood splatter
 		m_sprite.setTexture(TextureHolder::getTexture("../assets/gfx/blood.png"));
 		return true;
 	}
@@ -84,6 +84,8 @@ void Zombie::spawn(float startX, float startY, int type)
 	// center origin
 	m_sprite.setOrigin(m_sprite.getTexture()->getSize().x / 2.f, m_sprite.getTexture()->getSize().y / 2.f);
 	m_sprite.setPosition(m_position);
+
+	m_bAlive = true;
 }
 
 
