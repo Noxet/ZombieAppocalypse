@@ -24,5 +24,5 @@ public:
 	TextureHolder(TextureHolder const&) = delete;
 	void operator=(TextureHolder const&) = delete;
 
-	static sf::Texture& GetTexture(const std::string& filename);
+	static sf::Texture& getTexture(const std::string& filename);
 };
