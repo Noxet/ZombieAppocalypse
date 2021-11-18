@@ -5,8 +5,8 @@
 class Player
 {
 private:
-	const float START_SPEED{ 200 };
-	const int START_HEALTH{ 100 };
+	static constexpr float START_SPEED{ 200 };
+	static constexpr int START_HEALTH{ 100 };
 
 	// player data
 	sf::Vector2f m_position{};
