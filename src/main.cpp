@@ -1,7 +1,10 @@
 #include "zpch.hpp"
 
-#include "Player.hpp"
 #include "SFML/Graphics.hpp"
+
+#include "Player.hpp"
+#include "GamePlay.hpp"
+
 
 using sf::Keyboard;
 
@@ -30,6 +33,11 @@ int main()
 
 	// the boundaries of the arena
 	sf::IntRect arena;
+
+	// create background vertex array and loaf texture sheet
+	sf::VertexArray background;
+	sf::Texture backgroundTexture;
+	backgroundTexture.loadFromFile("../assets/gfx/background_sheet.png");
 
 	while (window.isOpen())
 	{
@@ -85,7 +93,7 @@ int main()
 				arena.left = 0;
 				arena.top = 0;
 
-				int tileSize = 50;
+				int tileSize = GamePlay::createBackground(background, arena);
 
 				player.spawn(arena, resolution, tileSize);
 
@@ -121,6 +129,10 @@ int main()
 		{
 			window.clear();
 			window.setView(mainView);
+
+			// draw background
+			window.draw(background, &backgroundTexture);
+
 			window.draw(player.getSprite());
 		}
 
