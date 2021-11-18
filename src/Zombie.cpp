@@ -10,8 +10,6 @@ void Zombie::update(float dt, Vector2f playerLocation)
 	const Vector2f delta = playerLocation - m_position;
 	const float max = std::max(std::abs(delta.x), std::abs(delta.y));
 
-	std::cout << "Max dist: " << max << std::endl;
-
 	// we don't need to compute stuff if we are close
 	if (max > 10.f)
 	{
