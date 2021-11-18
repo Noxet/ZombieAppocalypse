@@ -4,7 +4,6 @@
 
 #include "Player.hpp"
 #include "GamePlay.hpp"
-#include "TextureHolder.hpp"
 #include "Zombie.hpp"
 
 

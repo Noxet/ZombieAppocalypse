@@ -1,7 +1,6 @@
 ﻿#include "zpch.hpp"
 
 #include "Player.hpp"
-#include "TextureHolder.hpp"
 
 
 Player::Player()

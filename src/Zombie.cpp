@@ -1,7 +1,6 @@
 #include "zpch.hpp"
 
 #include "Zombie.hpp"
-#include "TextureHolder.hpp"
 
 
 void Zombie::update(float dt, Vector2f playerLocation)
