@@ -1,6 +1,7 @@
 ﻿#include "zpch.hpp"
 
 #include "Player.hpp"
+#include "TextureHolder.hpp"
 
 
 Player::Player()
@@ -9,8 +10,7 @@ Player::Player()
 	m_health = START_HEALTH;
 	m_maxHealth = START_HEALTH;
 
-	m_texture.loadFromFile("../assets/gfx/player.png");
-	m_sprite.setTexture(m_texture);
+	m_sprite = sf::Sprite(TextureHolder::getTexture("../assets/gfx/player.png"));
 	// set the origin to the sprite center (allows for easy rotation)
 	m_sprite.setOrigin(25, 25);
 	m_tileSize = 0;

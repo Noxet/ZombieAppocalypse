@@ -43,8 +43,7 @@ int main()
 
 	// create background vertex array and loaf texture sheet
 	sf::VertexArray background;
-	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("../assets/gfx/background_sheet.png");
+	sf::Texture backgroundTexture(TextureHolder::getTexture("../assets/gfx/background_sheet.png"));
 
 	while (window.isOpen())
 	{
@@ -95,8 +94,8 @@ int main()
 
 			if (state == State::PLAYING)
 			{
-				arena.width = 500;
-				arena.height = 500;
+				arena.width = 1000;
+				arena.height = 1000;
 				arena.left = 0;
 				arena.top = 0;
 
