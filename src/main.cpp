@@ -15,10 +15,10 @@ int main()
 	sf::Vector2u resolution(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
 	sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Zombie Appocalypse", sf::Style::Fullscreen);
-	//window.setFramerateLimit(60);
+	//window.setFramerateLimit(10);
 
 	// the "camera" view, initially placed at the screen origin
-	sf::View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
+	sf::View mainView(sf::FloatRect(0, 0, static_cast<float>(resolution.x), static_cast<float>(resolution.y)));
 
 	sf::Clock clock;
 	sf::Time gameTimeTotal;
@@ -77,16 +77,53 @@ int main()
 		else if (state == State::LEVELING_UP)
 		{
 			state = State::PLAYING;
+
+			if (state == State::PLAYING)
+			{
+				arena.width = 500;
+				arena.height = 500;
+				arena.left = 0;
+				arena.top = 0;
+
+				int tileSize = 50;
+
+				player.spawn(arena, resolution, tileSize);
+
+				// prevent frame jump
+				clock.restart();
+			}
 		}
 
-		sf::Vector2i mPos = sf::Mouse::getPosition();
-		std::cout << std::format("Mouse: ({}, {})", mPos.x, mPos.y) << std::endl;
+		/*
+		 * Update logic
+		 */
 
-		player.update(clock.getElapsedTime().asSeconds(), mPos);
-		clock.restart();
+		if (state == State::PLAYING)
+		{
+			sf::Time dt = clock.restart();
+			gameTimeTotal += dt;
 
-		window.clear();
-		window.draw(player.getSprite());
+			// get mouse position (px) and convert to game world position
+			mouseScreenPosition = sf::Mouse::getPosition();
+			mouseWorldPosition = window.mapPixelToCoords(mouseScreenPosition, mainView);
+
+			player.update(dt.asSeconds(), mouseScreenPosition);
+
+			mainView.setCenter(player.getCenter());
+		}
+
+		std::cout << std::format("player: <{}, {}>", player.getCenter().x, player.getCenter().y) << std::endl;
+
+		/*
+		 * Render
+		 */
+		if (state == State::PLAYING)
+		{
+			window.clear();
+			window.setView(mainView);
+			window.draw(player.getSprite());
+		}
+
 		window.display();
 	}
 }

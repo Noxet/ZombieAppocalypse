@@ -24,9 +24,9 @@ private:
 	sf::Texture m_texture;
 
 	// game info
-	sf::Vector2f m_resolution;	// current screen res
+	sf::Vector2u m_resolution;	// current screen res
 	sf::IntRect m_arena;		// size of current arena
-	int m_tileSize;			// tile size of the arena
+	int m_tileSize{};			// tile size of the arena
 
 public:
 	Player();
@@ -34,7 +34,7 @@ public:
 	void update(float dt, sf::Vector2i mousePosition);
 
 	// set player position, angle etc.
-	void spawn(sf::IntRect arena, sf::Vector2f resolution, int tileSize);
+	void spawn(sf::IntRect arena, sf::Vector2u resolution, int tileSize);
 
 	// call at the end of every game
 	void resetPlayerStats();

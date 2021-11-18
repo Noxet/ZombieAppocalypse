@@ -13,6 +13,7 @@ Player::Player()
 	m_sprite.setTexture(m_texture);
 	// set the origin to the sprite center (allows for easy rotation)
 	m_sprite.setOrigin(25, 25);
+	m_tileSize = 0;
 }
 
 
@@ -51,14 +52,14 @@ void Player::update(float dt, sf::Vector2i mousePosition)
 	 * Use resolution instead of player position, so we can manage a different game resolution compared to the screen res.
 	 * If the game res is 800x600, the center is <400, 300>, whereas the screen center (for 1920x1080 res) is <960, 540>
 	 */
-	const float rot = std::atan2(mousePosition.y - m_resolution.y / 2, mousePosition.x - m_resolution.x / 2) * 180 / za::PI;
+	const float rot = std::atan2f(mousePosition.y - m_resolution.y / 2.f, mousePosition.x - m_resolution.x / 2.f) * 180 / za::PI;
 	m_sprite.setRotation(rot);
 
 	m_sprite.setPosition(m_position);
 }
 
 
-void Player::spawn(sf::IntRect arena, sf::Vector2f resolution, int tileSize)
+void Player::spawn(sf::IntRect arena, sf::Vector2u resolution, int tileSize)
 {
 	// spawn in the center
 	m_position.x = static_cast<float>(arena.width) / 2.f;
