@@ -54,3 +54,59 @@ int GamePlay::createBackground(sf::VertexArray& va, sf::IntRect arena)
 
 	return TILE_SIZE;
 }
+
+
+std::vector<std::unique_ptr<Zombie>> GamePlay::createHorde(int numZombies, sf::IntRect arena)
+{
+	std::vector<std::unique_ptr<Zombie>> zombieHorde;
+
+	// spawn zombies along the walls
+	const int minX = arena.left + 20;
+	const int maxX = arena.width - 20;
+	const int minY = arena.top + 20;
+	const int maxY = arena.height - 20;
+
+	for (int i = 0; i < numZombies; ++i)
+	{
+		// create a new zombie in the vector (emplace avoids move) and get a reference to it
+		auto& z = zombieHorde.emplace_back(std::make_unique<Zombie>());
+
+		float x{}, y{};
+		switch (int side = rand() % 4)
+		{
+		case 0:
+			// top wall
+			x = static_cast<float>(rand() % (maxX - minX) + minX);
+			y = static_cast<float>(minY);
+			break;
+
+		case 1:
+			// right wall
+			x = static_cast<float>(maxX);
+			y = static_cast<float>(rand() % (maxY - minY) + minY);
+			break;
+
+		case 2:
+			// bottom wall
+			x = static_cast<float>(rand() % (maxX - minX) + minX);
+			y = static_cast<float>(maxY);
+			break;
+
+		case 3:
+			// left wall
+			x = static_cast<float>(minX);
+			y = static_cast<float>(rand() % (maxY - minY) + minY);
+			break;
+
+		default:
+			// TODO warning
+			break;
+		}
+
+		const int zombieType = (rand() % 3);
+
+		z->spawn(x, y, zombieType);
+	}
+
+	return zombieHorde;
+}

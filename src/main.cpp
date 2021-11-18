@@ -20,7 +20,7 @@ int main()
 	sf::Vector2u resolution(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
 	sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Zombie Appocalypse", sf::Style::Fullscreen);
-	window.setFramerateLimit(10);
+	//window.setFramerateLimit(10);
 
 	// the "camera" view, initially placed at the screen origin
 	sf::View mainView(sf::FloatRect(0, 0, static_cast<float>(resolution.x), static_cast<float>(resolution.y)));
@@ -32,7 +32,8 @@ int main()
 	sf::Vector2i mouseScreenPosition;	// relative to screen coordinates (in px)
 
 	Player player;
-	Zombie z;
+	
+	std::vector<std::unique_ptr<Zombie>> zombieHorde;
 
 	// the boundaries of the arena
 	sf::IntRect arena;
@@ -99,7 +100,7 @@ int main()
 				int tileSize = GamePlay::createBackground(background, arena);
 
 				player.spawn(arena, resolution, tileSize);
-				z.spawn(100, 100, 0);
+				zombieHorde = GamePlay::createHorde(10, arena);
 
 				// prevent frame jump
 				clock.restart();
@@ -120,7 +121,12 @@ int main()
 			mouseWorldPosition = window.mapPixelToCoords(mouseScreenPosition, mainView);
 
 			player.update(dt.asSeconds(), mouseScreenPosition);
-			z.update(dt.asSeconds(), player.getCenter());
+
+			for (auto& zombie : zombieHorde)
+			{
+				zombie->update(dt.asSeconds(), player.getCenter());
+			}
+			//z.update(dt.asSeconds(), player.getCenter());
 
 			mainView.setCenter(player.getCenter());
 		}
@@ -137,7 +143,12 @@ int main()
 			window.draw(background, &backgroundTexture);
 
 			window.draw(player.getSprite());
-			window.draw(z.getSprite());
+
+			for (auto& zombie : zombieHorde)
+			{
+				window.draw(zombie->getSprite());
+			}
+			//window.draw(z.getSprite());
 		}
 
 		window.display();

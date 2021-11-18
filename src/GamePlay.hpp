@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "Zombie.hpp"
+
 class GamePlay
 {
 private:
@@ -7,4 +9,5 @@ private:
 
 public:
 	static int createBackground(sf::VertexArray& va, sf::IntRect arena);
+	static std::vector<std::unique_ptr<Zombie>> createHorde(int numZombies, sf::IntRect arena);
 };
