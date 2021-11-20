@@ -7,13 +7,23 @@ Bullet::Bullet()
 {
 	m_inFlight = false;
 
-	m_bulletShape = sf::RectangleShape(Vector2f(10, 5));
-	m_bulletShape.setOrigin(5, 2.5f);
+	m_bulletShape = sf::RectangleShape(Vector2f(4, 2));
+	m_bulletShape.setOrigin(2, 1);
+	m_bulletShape.setFillColor(sf::Color::Yellow);
 }
 
 
 void Bullet::update(float dt)
 {
+	if (!m_inFlight) return;
+
+	const float dx = m_bulletSpeed * std::cos(m_bulletShape.getRotation() * za::PI / 180) * dt;
+	const float dy = m_bulletSpeed * std::sin(m_bulletShape.getRotation() * za::PI / 180) * dt;
+
+	m_position.x += dx;
+	m_position.y += dy;
+
+	m_bulletShape.setPosition(m_position);
 }
 
 

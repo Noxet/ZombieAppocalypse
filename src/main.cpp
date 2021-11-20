@@ -1,5 +1,6 @@
 #include "zpch.hpp"
 
+#include "Bullet.hpp"
 #include "SFML/Graphics.hpp"
 
 #include "Player.hpp"
@@ -44,6 +45,8 @@ int main()
 	sf::VertexArray background;
 	sf::Texture backgroundTexture(TextureHolder::getTexture("../assets/gfx/background_sheet.png"));
 
+	Bullet b;
+
 	while (window.isOpen())
 	{
 		/*
@@ -69,6 +72,14 @@ int main()
 				{
 					// start from level 1 again
 					state = State::LEVELING_UP;
+				}
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button ==  sf::Mouse::Left)
+				{
+					
+					b.shoot(player.getCenter(), mouseWorldPosition);
 				}
 			}
 		}
@@ -134,7 +145,8 @@ int main()
 
 				zombie->update(dt.asSeconds(), player.getCenter());
 			}
-			//z.update(dt.asSeconds(), player.getCenter());
+
+			b.update(dt.asSeconds());
 
 			mainView.setCenter(player.getCenter());
 		}
@@ -157,6 +169,8 @@ int main()
 				window.draw(zombie->getSprite());
 			}
 			//window.draw(z.getSprite());
+
+			window.draw(b.getShape());
 		}
 
 		window.display();

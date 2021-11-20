@@ -10,6 +10,7 @@ private:
 
 	bool m_inFlight{ false };
 	float m_bulletSpeed{ 1000 };
+	float m_bulletRange{ 1000 };
 
 public:
 	Bullet();
