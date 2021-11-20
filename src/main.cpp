@@ -53,6 +53,11 @@ int main()
 	float fireRate = 2;	// 1 per second
 	sf::Time lastFired{};
 
+	// setup the crosshair
+	window.setMouseCursorVisible(false);
+	sf::Sprite crosshairSprite(TextureHolder::getTexture("../assets/gfx/crosshair.png"));
+	crosshairSprite.setOrigin(crosshairSprite.getTexture()->getSize().x / 2.f, crosshairSprite.getTexture()->getSize().y / 2.f);
+
 	while (window.isOpen())
 	{
 		/*
@@ -168,6 +173,8 @@ int main()
 
 			player.update(dt.asSeconds(), mouseScreenPosition);
 
+			crosshairSprite.setPosition(mouseWorldPosition);
+
 			for (auto& zombie : zombieHorde)
 			{
 				if (!zombie->isAlive()) continue;
@@ -200,12 +207,13 @@ int main()
 			{
 				window.draw(zombie->getSprite());
 			}
-			//window.draw(z.getSprite());
 
 			for (auto& bullet : bullets)
 			{
 				window.draw(bullet.getShape());
 			}
+
+			window.draw(crosshairSprite);
 		}
 
 		window.display();
