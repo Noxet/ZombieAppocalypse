@@ -68,7 +68,7 @@ std::vector<std::unique_ptr<Zombie>> GamePlay::createHorde(int numZombies, sf::I
 
 	for (int i = 0; i < numZombies; ++i)
 	{
-		// create a new zombie in the vector (emplace avoids move) and get a reference to it
+		// create a new zombie in the vector (emplace avoids copy) and get a reference to it
 		auto& z = zombieHorde.emplace_back(std::make_unique<Zombie>());
 
 		float x{}, y{};
