@@ -45,7 +45,13 @@ int main()
 	sf::VertexArray background;
 	sf::Texture backgroundTexture(TextureHolder::getTexture("../assets/gfx/background_sheet.png"));
 
-	Bullet b;
+	std::vector<Bullet> bullets(100);
+	decltype(bullets.size()) currentBullet = 0;
+	int bulletsSpare = 24;
+	int bulletsInClip = 6;
+	int clipSize = 6;
+	float fireRate = 2;	// 1 per second
+	sf::Time lastFired{};
 
 	while (window.isOpen())
 	{
@@ -62,6 +68,22 @@ int main()
 				{
 					state = State::PAUSED;
 				}
+				else if (event.key.code == Keyboard::R && state == State::PLAYING)
+				{
+					// reload weapon
+					const int bulletsToFill = clipSize - bulletsInClip;
+					if (bulletsToFill < bulletsSpare)
+					{
+						bulletsSpare -= bulletsToFill;
+						bulletsInClip += bulletsToFill;
+					}
+					else
+					{
+						// not enough to fill the clip, use the remaining
+						bulletsInClip += bulletsSpare;
+						bulletsSpare = 0;
+					}
+				}
 				else if (event.key.code == Keyboard::Return && state == State::PAUSED)
 				{
 					// reset clock to prevent frame jump
@@ -72,14 +94,6 @@ int main()
 				{
 					// start from level 1 again
 					state = State::LEVELING_UP;
-				}
-			}
-			else if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button ==  sf::Mouse::Left)
-				{
-					
-					b.shoot(player.getCenter(), mouseWorldPosition);
 				}
 			}
 		}
@@ -97,6 +111,21 @@ int main()
 			Keyboard::isKeyPressed(Keyboard::S) ? player.moveDown() : player.stopDown();
 			Keyboard::isKeyPressed(Keyboard::A) ? player.moveLeft() : player.stopLeft();
 			Keyboard::isKeyPressed(Keyboard::D) ? player.moveRight() : player.stopRight();
+
+			// do not handle as an event since we want to have automatic firing
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				if (bulletsInClip > 0 && gameTimeTotal.asSeconds() - lastFired.asSeconds() > 1 / fireRate)
+				{
+					bullets[currentBullet].shoot(player.getCenter(), mouseWorldPosition);
+					++currentBullet;
+					// only have a fixed amount of bullets spawned at the same time, then we reuse
+					if (currentBullet >= bullets.size()) currentBullet = 0;
+
+					--bulletsInClip;
+					lastFired = gameTimeTotal;
+				}
+			}
 		}
 		else if (state == State::LEVELING_UP)
 		{
@@ -146,7 +175,10 @@ int main()
 				zombie->update(dt.asSeconds(), player.getCenter());
 			}
 
-			b.update(dt.asSeconds());
+			for (auto& bullet : bullets)
+			{
+				bullet.update(dt.asSeconds());
+			}
 
 			mainView.setCenter(player.getCenter());
 		}
@@ -170,7 +202,10 @@ int main()
 			}
 			//window.draw(z.getSprite());
 
-			window.draw(b.getShape());
+			for (auto& bullet : bullets)
+			{
+				window.draw(bullet.getShape());
+			}
 		}
 
 		window.display();
