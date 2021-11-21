@@ -58,6 +58,7 @@ void Pickup::update(float dt)
 void Pickup::setArena(sf::IntRect arena)
 {
 	m_arena = arena;
+	spawn();
 }
 
 
