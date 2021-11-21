@@ -12,6 +12,9 @@ private:
 	float m_bulletSpeed{ 1000 };
 	float m_bulletRange{ 1000 };
 
+	float m_minX{}, m_maxX{};
+	float m_minY{}, m_maxY{};
+
 public:
 	Bullet();
 

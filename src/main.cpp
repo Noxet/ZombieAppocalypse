@@ -184,6 +184,8 @@ int main()
 
 			for (auto& bullet : bullets)
 			{
+				if (!bullet.isInFlight()) continue;
+
 				bullet.update(dt.asSeconds());
 			}
 
@@ -210,6 +212,8 @@ int main()
 
 			for (auto& bullet : bullets)
 			{
+				if (!bullet.isInFlight()) continue;
+
 				window.draw(bullet.getShape());
 			}
 

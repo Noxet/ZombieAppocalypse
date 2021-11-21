@@ -23,6 +23,12 @@ void Bullet::update(float dt)
 	m_position.x += dx;
 	m_position.y += dy;
 
+	if (m_position.x > m_maxX || m_position.x < m_minX || m_position.y > m_maxY || m_position.y < m_minY)
+	{
+		m_inFlight = false;
+		return;
+	}
+
 	m_bulletShape.setPosition(m_position);
 }
 
@@ -48,6 +54,11 @@ void Bullet::shoot(const Vector2f start, const Vector2f target)
 
 	const float angle = atan2(target.y - start.y, target.x - start.x) * 180 / za::PI;
 	m_bulletShape.setRotation(angle);
+
+	m_minX = start.x - m_bulletRange;
+	m_maxX = start.x + m_bulletRange;
+	m_minY = start.y - m_bulletRange;
+	m_maxY = start.y + m_bulletRange;
 }
 
 
