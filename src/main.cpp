@@ -1,11 +1,12 @@
 #include "zpch.hpp"
 
-#include "Bullet.hpp"
 #include "SFML/Graphics.hpp"
 
 #include "Player.hpp"
 #include "GamePlay.hpp"
 #include "Zombie.hpp"
+#include "Bullet.hpp"
+#include "Pickup.hpp"
 
 
 using sf::Keyboard;
@@ -57,6 +58,10 @@ int main()
 	window.setMouseCursorVisible(false);
 	sf::Sprite crosshairSprite(TextureHolder::getTexture("../assets/gfx/crosshair.png"));
 	crosshairSprite.setOrigin(crosshairSprite.getTexture()->getSize().x / 2.f, crosshairSprite.getTexture()->getSize().y / 2.f);
+
+	// create some pickups
+	Pickup healthPickup(PickupType::Health);
+	Pickup ammoPickup(PickupType::Ammo);
 
 	while (window.isOpen())
 	{
@@ -148,6 +153,10 @@ int main()
 				// create the player
 				player.spawn(arena, resolution, tileSize);
 
+				// update pickups with new arena
+				healthPickup.setArena(arena);
+				ammoPickup.setArena(arena);
+
 				// create the zombie horde
 				numZombies = 10;
 				numZombiesAlive = 10;
@@ -172,6 +181,7 @@ int main()
 			mouseWorldPosition = window.mapPixelToCoords(mouseScreenPosition, mainView);
 
 			player.update(dt.asSeconds(), mouseScreenPosition);
+			mainView.setCenter(player.getCenter());
 
 			crosshairSprite.setPosition(mouseWorldPosition);
 
@@ -189,7 +199,8 @@ int main()
 				bullet.update(dt.asSeconds());
 			}
 
-			mainView.setCenter(player.getCenter());
+			if (healthPickup.isSpawned()) healthPickup.update(dt.asSeconds());
+			if (ammoPickup.isSpawned()) ammoPickup.update(dt.asSeconds());
 		}
 
 		/*
@@ -216,6 +227,9 @@ int main()
 
 				window.draw(bullet.getShape());
 			}
+
+			window.draw(healthPickup.getSprite());
+			window.draw(ammoPickup.getSprite());
 
 			window.draw(crosshairSprite);
 		}
