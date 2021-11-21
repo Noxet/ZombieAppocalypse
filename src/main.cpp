@@ -63,6 +63,9 @@ int main()
 	Pickup healthPickup(PickupType::Health);
 	Pickup ammoPickup(PickupType::Ammo);
 
+	int score{};
+	int highScore{};
+
 	while (window.isOpen())
 	{
 		/*
@@ -201,6 +204,62 @@ int main()
 
 			if (healthPickup.isSpawned()) healthPickup.update(dt.asSeconds());
 			if (ammoPickup.isSpawned()) ammoPickup.update(dt.asSeconds());
+
+			/*
+			 * Collision detection
+			 */
+			for (const auto& zombie : zombieHorde)
+			{
+				// check if zombie has hit the player
+				if (zombie->isAlive() && zombie->getPosition().intersects(player.getPosition()))
+				{
+					if (player.hit(gameTimeTotal))
+					{
+						std::cout << "Player hit!" << std::endl;
+					}
+
+					if (player.getHealth() <= 0)
+					{
+						state = State::GAME_OVER;
+					}
+				}
+
+				// check if zombie has been hit by a bullet, or more
+				for (auto& bullet : bullets)
+				{
+					if (zombie->isAlive() && bullet.isInFlight() && zombie->getPosition().intersects(bullet.getPosition()))
+					{
+						bullet.stop();
+
+						// check if the hit killed the zombie
+						if (zombie->hit())
+						{
+							score += 10;
+							--numZombiesAlive;
+
+							// update high score
+							if (score > highScore) highScore = score;
+						}
+
+						if (numZombiesAlive <= 0)
+						{
+							// wave completed
+							state = State::LEVELING_UP;
+						}
+					}
+				}
+			}
+
+			if (healthPickup.isSpawned() && healthPickup.getPosition().intersects(player.getPosition()))
+			{
+				int health = healthPickup.getPickup();
+				player.increaseHealthLevel(health);
+			}
+
+			if (ammoPickup.isSpawned() && ammoPickup.getPosition().intersects(player.getPosition()))
+			{
+				bulletsSpare += ammoPickup.getPickup();
+			}
 		}
 
 		/*
