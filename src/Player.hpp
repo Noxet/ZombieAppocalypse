@@ -53,6 +53,10 @@ public:
 	void reload();
 	void addAmmo(int ammo);
 
+	int getBulletsSpare() const { return m_bulletsSpare; }
+	int getBulletsInClip() const { return m_bulletsInClip; }
+	int getClipSize() const { return m_clipSize; }
+
 	// return a read-only reference to the bullets vector, for collision detection in the "game engine", aka main.
 	std::vector<Bullet>& getBullets() { return m_bullets; }
 
