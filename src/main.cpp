@@ -47,14 +47,6 @@ int main()
 	sf::VertexArray background;
 	sf::Texture backgroundTexture(TextureHolder::getTexture("../assets/gfx/background_sheet.png"));
 
-	std::vector<Bullet> bullets(100);
-	decltype(bullets.size()) currentBullet = 0;
-	int bulletsSpare = 24;
-	int bulletsInClip = 6;
-	int clipSize = 6;
-	float fireRate = 2;	// 1 per second
-	sf::Time lastFired{};
-
 	// setup the crosshair
 	window.setMouseCursorVisible(false);
 	sf::Sprite crosshairSprite(TextureHolder::getTexture("../assets/gfx/crosshair.png"));
@@ -92,18 +84,7 @@ int main()
 				else if (event.key.code == Keyboard::R && state == State::PLAYING)
 				{
 					// reload weapon
-					const int bulletsToFill = clipSize - bulletsInClip;
-					if (bulletsToFill < bulletsSpare)
-					{
-						bulletsSpare -= bulletsToFill;
-						bulletsInClip += bulletsToFill;
-					}
-					else
-					{
-						// not enough to fill the clip, use the remaining
-						bulletsInClip += bulletsSpare;
-						bulletsSpare = 0;
-					}
+					player.reload();
 				}
 				else if (event.key.code == Keyboard::Return && state == State::PAUSED)
 				{
@@ -136,16 +117,7 @@ int main()
 			// do not handle as an event since we want to have automatic firing
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				if (bulletsInClip > 0 && gameTimeTotal.asSeconds() - lastFired.asSeconds() > 1 / fireRate)
-				{
-					bullets[currentBullet].shoot(player.getCenter(), mouseWorldPosition);
-					++currentBullet;
-					// only have a fixed amount of bullets spawned at the same time, then we reuse
-					if (currentBullet >= bullets.size()) currentBullet = 0;
-
-					--bulletsInClip;
-					lastFired = gameTimeTotal;
-				}
+				player.shoot(mouseWorldPosition);
 			}
 		}
 		else if (state == State::LEVELING_UP)
@@ -203,7 +175,7 @@ int main()
 				zombie->update(dt.asSeconds(), player.getCenter());
 			}
 
-			for (auto& bullet : bullets)
+			for (auto& bullet : player.getBullets())
 			{
 				if (!bullet.isInFlight()) continue;
 
@@ -240,7 +212,7 @@ int main()
 				}
 
 				// check if zombie has been hit by a bullet, or more
-				for (auto& bullet : bullets)
+				for (auto& bullet : player.getBullets())
 				{
 					if (zombie->isAlive() && bullet.isInFlight() && zombie->getPosition().intersects(bullet.getPosition()))
 					{
@@ -273,7 +245,7 @@ int main()
 
 			if (ammoPickup.isSpawned() && ammoPickup.getPosition().intersects(player.getPosition()))
 			{
-				bulletsSpare += ammoPickup.getPickup();
+				player.addAmmo(ammoPickup.getPickup());
 			}
 		}
 
@@ -295,7 +267,7 @@ int main()
 				window.draw(zombie->getSprite());
 			}
 
-			for (auto& bullet : bullets)
+			for (auto& bullet : player.getBullets())
 			{
 				if (!bullet.isInFlight()) continue;
 

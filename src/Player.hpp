@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "SFML/Graphics.hpp"
+#include "Bullet.hpp"
 
 class Player
 {
@@ -18,6 +19,15 @@ private:
 	int m_maxHealth{};
 	sf::Time m_lastHit{};		// when the player was last hit
 	float m_speed{};			// player speed in px/s
+
+	// weapon
+	std::vector<Bullet> m_bullets; // initialize bullets in ctor
+	decltype(m_bullets.size()) m_currentBullet = 0;
+	int m_bulletsSpare{ 24 };
+	int m_bulletsInClip{ 6 };
+	int m_clipSize{ 6 };
+	float m_fireRate{ 2 };	// shots per second
+	float m_timeSinceLastFired{};
 
 	// graphics
 	sf::Sprite m_sprite;
@@ -38,6 +48,13 @@ public:
 
 	// call at the end of every game
 	void resetPlayerStats();
+
+	void shoot(Vector2f target);
+	void reload();
+	void addAmmo(int ammo);
+
+	// return a read-only reference to the bullets vector, for collision detection in the "game engine", aka main.
+	std::vector<Bullet>& getBullets() { return m_bullets; }
 
 	// handle getting hit by a zombie
 	bool hit(sf::Time timeHit);
