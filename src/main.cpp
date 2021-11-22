@@ -7,6 +7,7 @@
 #include "Zombie.hpp"
 #include "Bullet.hpp"
 #include "Pickup.hpp"
+#include "HUD.hpp"
 
 
 using sf::Keyboard;
@@ -65,6 +66,13 @@ int main()
 
 	int score{};
 	int highScore{};
+
+	HUD playerHUD(player);
+	sf::View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y));
+	
+	// how often to update the HUD
+	float hudTimeInterval = 0.1f;
+	sf::Time hudTimeSinceLastUpdate;
 
 	while (window.isOpen())
 	{
@@ -205,6 +213,13 @@ int main()
 			if (healthPickup.isSpawned()) healthPickup.update(dt.asSeconds());
 			if (ammoPickup.isSpawned()) ammoPickup.update(dt.asSeconds());
 
+			// don't have to update the UI that often
+			if (gameTimeTotal.asSeconds() - hudTimeSinceLastUpdate.asSeconds() > hudTimeInterval)
+			{
+				playerHUD.update(dt.asSeconds());
+				hudTimeSinceLastUpdate = gameTimeTotal;
+			}
+
 			/*
 			 * Collision detection
 			 */
@@ -287,10 +302,15 @@ int main()
 				window.draw(bullet.getShape());
 			}
 
-			window.draw(healthPickup.getSprite());
-			window.draw(ammoPickup.getSprite());
+			if (healthPickup.isSpawned()) window.draw(healthPickup.getSprite());
+			if (ammoPickup.isSpawned()) window.draw(ammoPickup.getSprite());
 
 			window.draw(crosshairSprite);
+
+			// render HUD
+			window.setView(hudView);
+			playerHUD.render(window);
+
 		}
 
 		window.display();
