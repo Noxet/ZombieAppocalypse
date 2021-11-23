@@ -14,6 +14,8 @@ using sf::Keyboard;
 
 int main()
 {
+	srand(static_cast<int>(time(0)));
+
 	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
 
 	State state = State::GAME_OVER;
