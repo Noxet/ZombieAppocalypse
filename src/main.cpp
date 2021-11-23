@@ -59,12 +59,33 @@ int main()
 	int score{};
 	int highScore{};
 
-	HUD playerHUD(player);
+	HUD playerHUD(player, score, highScore, numZombiesAlive);
 	sf::View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y));
 	
 	// how often to update the HUD
 	float hudTimeInterval = 0.1f;
 	sf::Time hudTimeSinceLastUpdate;
+
+	sf::Font font;
+	font.loadFromFile("../assets/fonts/zombiecontrol.ttf");
+
+	// game paused
+	sf::Text pausedText;
+	pausedText.setFont(font);
+	pausedText.setFillColor(sf::Color::White);
+	pausedText.setCharacterSize(155);
+	pausedText.setPosition(560, 400);
+	pausedText.setString("Press Enter\nto continue");
+
+	// game over
+	sf::Text gameOverText;
+	gameOverText.setFont(font);
+	gameOverText.setCharacterSize(125);
+	gameOverText.setFillColor(sf::Color::White);
+	gameOverText.setPosition(250, 950);
+	gameOverText.setString("Press Enter to play");
+
+	sf::Text levelUpText;
 
 	while (window.isOpen())
 	{
@@ -283,6 +304,10 @@ int main()
 			window.setView(hudView);
 			playerHUD.render(window);
 
+		}
+		else if (state == State::PAUSED)
+		{
+			window.draw(pausedText);
 		}
 
 		window.display();
