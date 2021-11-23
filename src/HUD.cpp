@@ -11,9 +11,6 @@
 HUD::HUD(Player& player, int& score, int& highScore, int& numZombiesAlive) :
 	m_player(player), m_score(score), m_highScore(highScore), m_numZombiesAlive(numZombiesAlive)
 {
-	m_gameOverSprite.setTexture(TextureHolder::getTexture("../assets/gfx/background.png"));
-	m_gameOverSprite.setPosition(0, 0);
-
 	m_ammoIcon.setTexture(TextureHolder::getTexture("../assets/gfx/ammo_icon.png"));
 	m_ammoIcon.setPosition(20, 1100);
 

@@ -9,7 +9,6 @@ private:
 	int& m_highScore;
 	int& m_numZombiesAlive;
 
-	sf::Sprite m_gameOverSprite;
 	sf::Sprite m_ammoIcon;
 
 	sf::Font m_font;

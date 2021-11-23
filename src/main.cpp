@@ -87,6 +87,11 @@ int main()
 	gameOverText.setPosition(250, 950);
 	gameOverText.setString("Press Enter to play");
 
+	sf::Sprite gameOverSprite;
+	gameOverSprite.setTexture(TextureHolder::getTexture("../assets/gfx/background.png"));
+	gameOverSprite.setPosition(0, 0);
+
+	// level up
 	sf::Text levelUpText;
 
 	while (window.isOpen())
@@ -310,6 +315,10 @@ int main()
 		else if (state == State::PAUSED)
 		{
 			window.draw(pausedText);
+		}
+		else if (state == State::LEVELING_UP)
+		{
+			//window.draw(gameOverSprite);
 		}
 
 		window.display();
