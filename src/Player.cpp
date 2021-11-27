@@ -14,6 +14,23 @@ Player::Player() : m_bullets(100)
 	m_sprite.setOrigin(25, 25);
 	m_tileSize = 0;
 	m_timeSinceLastFired = 0;
+
+	// load all sounds
+	hitBuffer.loadFromFile("../assets/sfx/hit.wav");
+	hitSound.setBuffer(hitBuffer);
+	hitSound.setVolume(GamePlay::sfxVolume);
+
+	shootBuffer.loadFromFile("../assets/sfx/shoot.wav");
+	shootSound.setBuffer(shootBuffer);
+	shootSound.setVolume(GamePlay::sfxVolume);
+
+	reloadBuffer.loadFromFile("../assets/sfx/reload.wav");
+	reloadSound.setBuffer(reloadBuffer);
+	reloadSound.setVolume(GamePlay::sfxVolume);
+
+	reloadFailedBuffer.loadFromFile("../assets/sfx/reload_failed.wav");
+	reloadFailedSound.setBuffer(reloadFailedBuffer);
+	reloadFailedSound.setVolume(GamePlay::sfxVolume);
 }
 
 
@@ -101,6 +118,13 @@ void Player::shoot(Vector2f target)
 
 		--m_bulletsInClip;
 		m_timeSinceLastFired = 0;
+
+		shootSound.play();
+	}
+
+	if (m_bulletsInClip <= 0)
+	{
+		// play empty clip sound?
 	}
 }
 
@@ -108,16 +132,24 @@ void Player::shoot(Vector2f target)
 void Player::reload()
 {
 	const int bulletsToFill = m_clipSize - m_bulletsInClip;
-	if (bulletsToFill < m_bulletsSpare)
+	if (bulletsToFill <= m_bulletsSpare)
 	{
 		m_bulletsSpare -= bulletsToFill;
 		m_bulletsInClip += bulletsToFill;
+
+		reloadSound.play();
 	}
-	else
+	else if (m_bulletsSpare > 0)
 	{
 		// not enough to fill the clip, use the remaining
 		m_bulletsInClip += m_bulletsSpare;
 		m_bulletsSpare = 0;
+
+		reloadSound.play();
+	}
+	else
+	{
+		reloadFailedSound.play();
 	}
 }
 
@@ -135,6 +167,7 @@ bool Player::hit(sf::Time timeHit)
 	{
 		m_lastHit = timeHit;
 		m_health -= 10;
+		hitSound.play();
 		return true;
 	}
 

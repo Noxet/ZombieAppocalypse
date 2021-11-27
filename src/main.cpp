@@ -2,10 +2,7 @@
 
 #include <fstream>
 
-#include "SFML/Graphics.hpp"
-
 #include "Player.hpp"
-#include "GamePlay.hpp"
 #include "Zombie.hpp"
 #include "Bullet.hpp"
 #include "Pickup.hpp"
@@ -125,6 +122,12 @@ int main()
 	gameOverSprite.setTexture(TextureHolder::getTexture("../assets/gfx/background.png"));
 	gameOverSprite.setPosition(0, 0);
 
+	sf::SoundBuffer powerupBuffer;
+	powerupBuffer.loadFromFile("../assets/sfx/powerup.wav");
+	sf::Sound powerupSound;
+	powerupSound.setVolume(GamePlay::sfxVolume);
+	powerupSound.setBuffer(powerupBuffer);
+
 	while (window.isOpen())
 	{
 		/*
@@ -239,6 +242,8 @@ int main()
 				numZombies = 10;
 				numZombiesAlive = 10;
 				zombieHorde = GamePlay::createHorde(numZombies, arena);
+
+				powerupSound.play();
 
 				// prevent frame jump
 				clock.restart();

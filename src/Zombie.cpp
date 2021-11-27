@@ -3,6 +3,14 @@
 #include "Zombie.hpp"
 
 
+Zombie::Zombie()
+{
+	deathBuffer.loadFromFile("../assets/sfx/splat.wav");
+	deathSound.setBuffer(deathBuffer);
+	deathSound.setVolume(GamePlay::sfxVolume);
+}
+
+
 void Zombie::update(float dt, Vector2f playerLocation)
 {
 	// TODO: instead of normalizing based on max, we should normalize on the resultant vector
@@ -29,6 +37,7 @@ bool Zombie::hit()
 		m_bAlive = false;
 		// replace the zombie image with blood splatter
 		m_sprite.setTexture(TextureHolder::getTexture("../assets/gfx/blood.png"));
+		deathSound.play();
 		return true;
 	}
 

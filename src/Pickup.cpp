@@ -25,6 +25,10 @@ Pickup::Pickup(PickupType type)
 
 	m_secondsToLive = START_SECONDS_TO_LIVE;
 	m_secondsToWait = START_WAIT_TIME;
+
+	pickupBuffer.loadFromFile("../assets/sfx/pickup.wav");
+	pickupSound.setBuffer(pickupBuffer);
+	pickupSound.setVolume(GamePlay::sfxVolume);
 }
 
 
@@ -78,6 +82,7 @@ int Pickup::getPickup()
 {
 	m_spawned = false;
 	m_secondsSinceDeSpawn = 0;
+	pickupSound.play();
 	return m_value;
 }
 

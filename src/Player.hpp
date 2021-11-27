@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "SFML/Graphics.hpp"
 #include "Bullet.hpp"
 
 class Player
@@ -32,6 +31,16 @@ private:
 	// graphics
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
+
+	// audio
+	sf::SoundBuffer hitBuffer;
+	sf::Sound hitSound;
+	sf::SoundBuffer shootBuffer;
+	sf::Sound shootSound;
+	sf::SoundBuffer reloadBuffer;
+	sf::Sound reloadSound;
+	sf::SoundBuffer reloadFailedBuffer;
+	sf::Sound reloadFailedSound;
 
 	// game info
 	sf::Vector2u m_resolution;	// current screen res

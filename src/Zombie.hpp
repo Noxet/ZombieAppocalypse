@@ -16,8 +16,11 @@ private:
 	const int MAX_VARIANCE = 30;
 	const int OFFSET = 101 - MAX_VARIANCE;
 
-	Vector2f m_position;
+	sf::Vector2f m_position;
 	sf::Sprite m_sprite;
+
+	sf::SoundBuffer deathBuffer;
+	sf::Sound deathSound;
 
 	float m_speed{};
 
@@ -26,7 +29,9 @@ private:
 	bool m_bAlive{};
 
 public:
-	void update(float dt, Vector2f playerLocation);
+	Zombie();
+
+	void update(float dt, sf::Vector2f playerLocation);
 
 	/**
 	 * Take damage.

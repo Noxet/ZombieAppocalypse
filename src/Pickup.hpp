@@ -14,6 +14,9 @@ private:
 
 	sf::Sprite m_sprite;
 
+	sf::SoundBuffer pickupBuffer;
+	sf::Sound pickupSound;
+
 	// the arena the pickup exists in
 	sf::IntRect m_arena;
 

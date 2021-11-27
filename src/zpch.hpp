@@ -6,8 +6,10 @@
 #include <sstream>
 
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 
 #include "TextureHolder.hpp"
+#include "GamePlay.hpp"
 
 using sf::Vector2f;
 using sf::Vector2i;
