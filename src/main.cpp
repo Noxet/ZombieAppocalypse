@@ -1,5 +1,7 @@
 #include "zpch.hpp"
 
+#include <fstream>
+
 #include "SFML/Graphics.hpp"
 
 #include "Player.hpp"
@@ -9,6 +11,7 @@
 #include "Pickup.hpp"
 #include "HUD.hpp"
 
+const std::string g_gameData{ "scores.txt" };
 
 using sf::Keyboard;
 
@@ -60,6 +63,14 @@ int main()
 
 	int score{};
 	int highScore{};
+
+	// read high score from file
+	std::ifstream inputFile(g_gameData);
+	if (inputFile.is_open())
+	{
+		inputFile >> highScore;
+		inputFile.close();
+	}
 
 	HUD playerHUD(player, score, highScore, numZombiesAlive);
 	sf::View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -292,6 +303,11 @@ int main()
 					if (player.getHealth() <= 0)
 					{
 						state = State::GAME_OVER;
+
+						// save high score to file
+						std::ofstream outputFile(g_gameData);
+						outputFile << highScore;
+						outputFile.close();
 					}
 				}
 

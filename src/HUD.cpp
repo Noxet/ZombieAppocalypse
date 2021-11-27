@@ -25,6 +25,11 @@ HUD::HUD(Player& player, int& score, int& highScore, int& numZombiesAlive) :
 	m_scoreText.setFillColor(sf::Color::White);
 	m_scoreText.setPosition(20, 0);
 
+	m_highScoreText.setFont(m_font);
+	m_highScoreText.setCharacterSize(55);
+	m_highScoreText.setFillColor(sf::Color::White);
+	m_highScoreText.setPosition(1400, 0);
+
 	m_healthBar.setFillColor(sf::Color::Red);
 	m_healthBar.setPosition(450, 1100);
 
