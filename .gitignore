@@ -10,6 +10,9 @@ bin-int/
 # Prerequisites
 *.d
 
+# Game data
+scores.txt
+
 # Compiled Object files
 *.slo
 *.lo
