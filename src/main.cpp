@@ -79,6 +79,22 @@ int main()
 	pausedText.setPosition(560, 400);
 	pausedText.setString("Press Enter\nto continue");
 
+	// level up
+	sf::Text levelUpText;
+	levelUpText.setFont(font);
+	levelUpText.setCharacterSize(80);
+	levelUpText.setFillColor(sf::Color::White);
+	levelUpText.setPosition(150, 250);
+	std::stringstream levelUpStream;
+	levelUpStream <<
+		"1 - Increased rate of fire\n" <<
+		"2 - Increased clip size\n" <<
+		"3 - Increased max health\n" <<
+		"4 - Increased run speed\n" <<
+		"5 - More and better health pickups\n" <<
+		"6 - More and better ammo pickups\n";
+	levelUpText.setString(levelUpStream.str());
+
 	// game over
 	sf::Text gameOverText;
 	gameOverText.setFont(font);
@@ -97,9 +113,6 @@ int main()
 	sf::Sprite gameOverSprite;
 	gameOverSprite.setTexture(TextureHolder::getTexture("../assets/gfx/background.png"));
 	gameOverSprite.setPosition(0, 0);
-
-	// level up
-	sf::Text levelUpText;
 
 	while (window.isOpen())
 	{
@@ -157,7 +170,37 @@ int main()
 		}
 		else if (state == State::LEVELING_UP)
 		{
-			state = State::PLAYING;
+			// Let the player choose an upgrade for each wave
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
+			{
+				// increased rate of fire
+				state = State::PLAYING;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
+			{
+				// increased clip size
+				state = State::PLAYING;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
+			{
+				// increased max health
+				state = State::PLAYING;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+			{
+				// increased run speed
+				state = State::PLAYING;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
+			{
+				// more and better health pickups
+				state = State::PLAYING;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
+			{
+				// more and better ammo pickups
+				state = State::PLAYING;
+			}
 
 			if (state == State::PLAYING)
 			{
@@ -326,6 +369,7 @@ int main()
 		else if (state == State::LEVELING_UP)
 		{
 			window.draw(gameOverSprite);
+			window.draw(levelUpText);
 		}
 		else if (state == State::GAME_OVER)
 		{

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <format>
 #include <cmath>
+#include <sstream>
 
 #include "SFML/Graphics.hpp"
 
