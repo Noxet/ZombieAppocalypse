@@ -84,8 +84,15 @@ int main()
 	gameOverText.setFont(font);
 	gameOverText.setCharacterSize(125);
 	gameOverText.setFillColor(sf::Color::White);
-	gameOverText.setPosition(250, 950);
+	gameOverText.setPosition(400, 950);
 	gameOverText.setString("Press Enter to play");
+
+	sf::Text gameText;
+	gameText.setFont(font);
+	gameText.setCharacterSize(125);
+	gameText.setFillColor(sf::Color(180, 0, 0));
+	gameText.setPosition(400, 100);
+	gameText.setString("Zombie Appocalypse");
 
 	sf::Sprite gameOverSprite;
 	gameOverSprite.setTexture(TextureHolder::getTexture("../assets/gfx/background.png"));
@@ -318,7 +325,13 @@ int main()
 		}
 		else if (state == State::LEVELING_UP)
 		{
-			//window.draw(gameOverSprite);
+			window.draw(gameOverSprite);
+		}
+		else if (state == State::GAME_OVER)
+		{
+			window.draw(gameOverSprite);
+			window.draw(gameOverText);
+			window.draw(gameText);
 		}
 
 		window.display();
