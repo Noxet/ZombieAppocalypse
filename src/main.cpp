@@ -84,7 +84,7 @@ int main()
 	levelUpText.setFont(font);
 	levelUpText.setCharacterSize(80);
 	levelUpText.setFillColor(sf::Color::White);
-	levelUpText.setPosition(150, 250);
+	levelUpText.setPosition(150, 350);
 	std::stringstream levelUpStream;
 	levelUpStream <<
 		"1 - Increased rate of fire\n" <<
@@ -174,31 +174,37 @@ int main()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
 			{
 				// increased rate of fire
+				player.upgradeFireRate();
 				state = State::PLAYING;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
 			{
 				// increased clip size
+				player.upgradeClipSize();
 				state = State::PLAYING;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
 			{
 				// increased max health
+				player.upgradeHealth();
 				state = State::PLAYING;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
 			{
 				// increased run speed
+				player.upgradeSpeed();
 				state = State::PLAYING;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
 			{
 				// more and better health pickups
+				healthPickup.upgrade();
 				state = State::PLAYING;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
 			{
 				// more and better ammo pickups
+				ammoPickup.upgrade();
 				state = State::PLAYING;
 			}
 

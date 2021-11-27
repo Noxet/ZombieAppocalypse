@@ -239,6 +239,18 @@ void Player::increaseHealthLevel(int amount)
 }
 
 
+void Player::upgradeFireRate()
+{
+	++m_fireRate;
+}
+
+
+void Player::upgradeClipSize()
+{
+	m_clipSize += 3;
+}
+
+
 int Player::getHealth() const
 {
 	return m_health;

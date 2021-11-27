@@ -90,6 +90,8 @@ public:
 	void upgradeSpeed();
 	void upgradeHealth();
 	void increaseHealthLevel(int amount);	// increase the max health
+	void upgradeFireRate();
+	void upgradeClipSize();
 
 	int getHealth() const;
 };
