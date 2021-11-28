@@ -375,9 +375,11 @@ int main()
 		/*
 		 * Render
 		 */
+
+		window.clear();
+
 		if (state == State::PLAYING)
 		{
-			window.clear();
 			window.setView(mainView);
 
 			// draw background
