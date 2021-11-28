@@ -16,7 +16,6 @@ private:
 	sf::Text m_scoreText;
 	sf::Text m_highScoreText;
 	sf::Text m_zombieRemainingText;
-	sf::Text m_waveNumberText;
 
 	sf::RectangleShape m_healthBar;
 

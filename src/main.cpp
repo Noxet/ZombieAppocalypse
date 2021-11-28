@@ -41,6 +41,7 @@ int main()
 	std::vector<std::unique_ptr<Zombie>> zombieHorde;
 	int numZombies{};
 	int numZombiesAlive{};
+	int wave{};
 
 	// the boundaries of the arena
 	sf::IntRect arena;
@@ -86,6 +87,13 @@ int main()
 	pausedText.setCharacterSize(155);
 	pausedText.setPosition(560, 400);
 	pausedText.setString("Press Enter\nto continue");
+
+	// wave number
+	sf::Text waveText;
+	waveText.setFont(font);
+	waveText.setCharacterSize(55);
+	waveText.setFillColor(sf::Color::White);
+	waveText.setPosition(1200, 1100);
 
 	// level up
 	sf::Text levelUpText;
@@ -224,8 +232,8 @@ int main()
 
 			if (state == State::PLAYING)
 			{
-				arena.width = 1000;
-				arena.height = 1000;
+				arena.width = 1000 + 300 * wave;
+				arena.height = 1000 + 300 * wave;
 				arena.left = 0;
 				arena.top = 0;
 
@@ -239,11 +247,13 @@ int main()
 				ammoPickup.setArena(arena);
 
 				// create the zombie horde
-				numZombies = 10;
-				numZombiesAlive = 10;
+				numZombies = 10 + 3 * wave;
+				numZombiesAlive = numZombies;
 				zombieHorde = GamePlay::createHorde(numZombies, arena);
 
 				powerupSound.play();
+
+				++wave;
 
 				// prevent frame jump
 				clock.restart();
@@ -387,6 +397,10 @@ int main()
 			// render HUD
 			window.setView(hudView);
 			playerHUD.render(window);
+			std::stringstream waveStream;
+			waveStream << "Wave: " << wave;
+			waveText.setString(waveStream.str());
+			window.draw(waveText);
 
 		}
 		else if (state == State::PAUSED)
