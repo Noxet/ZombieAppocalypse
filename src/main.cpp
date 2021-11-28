@@ -292,8 +292,8 @@ int main()
 				bullet.update(dt.asSeconds());
 			}
 
-			if (healthPickup.isSpawned()) healthPickup.update(dt.asSeconds());
-			if (ammoPickup.isSpawned()) ammoPickup.update(dt.asSeconds());
+			healthPickup.update(dt.asSeconds());
+			ammoPickup.update(dt.asSeconds());
 
 			// don't have to update the UI that often
 			if (gameTimeTotal.asSeconds() - hudTimeSinceLastUpdate.asSeconds() > hudTimeInterval)
