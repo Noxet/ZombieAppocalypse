@@ -292,6 +292,7 @@ int main()
 				bullet.update(dt.asSeconds());
 			}
 
+			// update even though not spawned, since we calculate the time until next spawn
 			healthPickup.update(dt.asSeconds());
 			ammoPickup.update(dt.asSeconds());
 
