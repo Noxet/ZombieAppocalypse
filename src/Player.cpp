@@ -104,6 +104,10 @@ void Player::resetPlayerStats()
 	m_speed = START_SPEED;
 	m_health = START_HEALTH;
 	m_maxHealth = START_HEALTH;
+	m_bulletsSpare = START_BULLETS_SPARE;
+	m_clipSize = START_CLIP_SIZE;
+	m_bulletsInClip = m_clipSize;
+	m_fireRate = START_FIRE_RATE;
 }
 
 

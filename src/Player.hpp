@@ -7,6 +7,9 @@ class Player
 private:
 	static constexpr float START_SPEED{ 200 };
 	static constexpr int START_HEALTH{ 100 };
+	static constexpr int START_BULLETS_SPARE{ 24 };
+	static constexpr int START_CLIP_SIZE{ 6 };
+	static constexpr int START_FIRE_RATE{ 2 };
 
 	// player data
 	sf::Vector2f m_position{};

@@ -55,5 +55,8 @@ public:
 	int getPickup();
 
 	void upgrade();
+
+	// clear all upgrades
+	void resetStats();
 };
 

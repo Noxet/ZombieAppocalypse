@@ -105,3 +105,22 @@ void Pickup::upgrade()
 	m_secondsToWait += (START_WAIT_TIME / 10.f);
 }
 
+
+void Pickup::resetStats()
+{
+	switch (m_type)
+	{
+	case PickupType::Health:
+		m_value = HEALTH_START_VALUE;
+		break;
+
+	case PickupType::Ammo:
+		m_value = AMMO_START_VALUE;
+		break;
+	}
+
+	// make the pickups more frequent and longer lasting
+	m_secondsToLive = START_SECONDS_TO_LIVE;
+	m_secondsToWait = START_WAIT_TIME;
+}
+

@@ -324,6 +324,13 @@ int main()
 						std::ofstream outputFile(g_gameData);
 						outputFile << highScore;
 						outputFile.close();
+
+						// reset all stats
+						wave = 0;
+						score = 0;
+						player.resetPlayerStats();
+						ammoPickup.resetStats();
+						healthPickup.resetStats();
 					}
 				}
 
