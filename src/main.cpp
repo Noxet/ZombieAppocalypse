@@ -383,11 +383,20 @@ int main()
 			// draw background
 			window.draw(background, &backgroundTexture);
 
+			// render dead zombies first, i.e., the blood splat
+			for (auto& zombie : zombieHorde)
+			{
+				if (!zombie->isAlive()) window.draw(zombie->getSprite());
+			}
+
+			if (healthPickup.isSpawned()) window.draw(healthPickup.getSprite());
+			if (ammoPickup.isSpawned()) window.draw(ammoPickup.getSprite());
+
 			window.draw(player.getSprite());
 
 			for (auto& zombie : zombieHorde)
 			{
-				window.draw(zombie->getSprite());
+				if (zombie->isAlive()) window.draw(zombie->getSprite());
 			}
 
 			for (auto& bullet : player.getBullets())
@@ -396,9 +405,6 @@ int main()
 
 				window.draw(bullet.getShape());
 			}
-
-			if (healthPickup.isSpawned()) window.draw(healthPickup.getSprite());
-			if (ammoPickup.isSpawned()) window.draw(ammoPickup.getSprite());
 
 			window.draw(crosshairSprite);
 
